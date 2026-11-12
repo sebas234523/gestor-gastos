@@ -1,5 +1,17 @@
-gastos = []
+import json
 
+def guardar_gastos():
+    with open("gastos.json", "w") as archivo:
+        json.dump(gastos, archivo)
+
+def cargar_gastos():
+    try:
+        with open("gastos.json", "r") as archivo:
+            recuperar = json.load(archivo)
+            return recuperar
+    except FileNotFoundError:
+        return []
+        
 def agregar_gastos():
     categoria = input("Categoria: ")
     descripcion = input("Descripcion: ")
@@ -13,11 +25,16 @@ def agregar_gastos():
         except ValueError:
             print("solo valores numericos")
     gastos.append([categoria, descripcion, monto])
+    guardar_gastos()
 
 
 def ver_gastos():
-    for gasto in gastos:
-        print(f"{gasto[0]} - {gasto[1]}  ${gasto[2]}")
+        if not gastos:
+            print("aun no hay gastos...")
+        else:
+            for gasto in gastos:
+                print(f"{gasto[0]} - {gasto[1]}  ${gasto[2]}")
+            
     
 def total_gastos():
     total = 0
@@ -25,6 +42,7 @@ def total_gastos():
         total += gasto[2]
     print(f"total gastado ${total}")
 
+gastos = cargar_gastos()
 
 while True:
     while True:
