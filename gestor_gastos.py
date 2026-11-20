@@ -1,5 +1,18 @@
 import json
 
+def ver_por_categoria():
+    total = 0
+    categoria = input("que categoria vas a ver? ").lower()
+
+    for gasto in gastos:
+        if  gasto[0] == categoria:
+            print(f"{gasto[0]} - {gasto[1]}  ${gasto[2]}")
+            total += gasto[2]
+    if total == 0:
+        print("no hay gastos en esta categoria")
+    else:
+        print(f"el total de la categoria {categoria} es: {total}")
+        
 def guardar_gastos():
     with open("gastos.json", "w") as archivo:
         json.dump(gastos, archivo)
@@ -47,10 +60,10 @@ gastos = cargar_gastos()
 while True:
     while True:
         try:
-            opcion= int(input("\n 1. agregar gastos \n 2.ver gastos \n 3. ver total de gastos \n 4. salir \n elige una opcion: "))
+            opcion= int(input("\n 1. agregar gastos \n 2.ver gastos \n 3. ver total de gastos \n 4. ver gastos por categoria \n 5. Salir \n elige una opcion: "))
             break
         except ValueError:
-            print("Solo datos numericos del 1 al 4")
+            print("Solo datos numericos del 1 al 5")
 
     if opcion == 1:
         agregar_gastos()
@@ -59,6 +72,8 @@ while True:
     elif opcion == 3:
         total_gastos()
     elif opcion == 4:
+        ver_por_categoria()
+    elif opcion == 5:
         break
     else: 
         print("Opcion no valida")
